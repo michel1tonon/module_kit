@@ -1,0 +1,17 @@
+name: module_kit_example
+description: Example app for module_kit with go_router and provider.
+publish_to: none
+
+environment:
+  sdk: ">=3.2.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  module_kit:
+    path: ../../
+  go_router: any
+  provider: any
+
+flutter:
+  uses-material-design: true
