@@ -1,0 +1,25 @@
+# Dart / Flutter tool directories
+.dart_tool/
+**/.dart_tool/
+.packages
+
+# Build outputs
+build/
+**/build/
+
+# Flutter generated files
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+
+# Documentation output
+doc/api/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# OS files
+.DS_Store
