@@ -12,6 +12,16 @@ This package is **not a framework**.
 
 The goal is to stay as invisible as possible: small contracts, predictable composition, and freedom for your team to keep coding the way it already does.
 
+## Micro frontends and multi-package friendly
+
+`module_kit` works well for teams that want to scale features as isolated modules.
+
+- Start simple with local `features/` inside one app.
+- Evolve incrementally to multi-package/monorepo setups.
+- Keep composition in the app shell, while each feature owns its internals.
+
+This means your architecture can move from "modular folders" to "modular packages" without changing the core contracts.
+
 ## What this package does
 
 - Defines a `FeatureModule<ROUTER, INJECTOR>` contract.
@@ -22,19 +32,14 @@ The goal is to stay as invisible as possible: small contracts, predictable compo
 
 ## Recommended project structure (consumer apps)
 
-You can organize your app with either `lib/` or `src/` as root.  
-The recommended split is:
+You can organize your app with either `lib/` or `src/` as root.
 
-- `features/`: packages/modules with business features.
-- `shared/`: contracts and reusable building blocks consumed by features.
+### Level 1: single app, local features
 
-Example:
+Use this when you want a simple start:
 
 ```text
 lib/
-  shared/
-    cross/
-      select_country_cross.dart
   features/
     select_country/
       select_country_module.dart
@@ -42,7 +47,43 @@ lib/
         select_country_cross_impl.dart
     checkout/
       checkout_module.dart
+  shared/
+    cross/
+      select_country_cross.dart
 ```
+
+### Level 2: monorepo, multi-package features
+
+Use this when you want stronger feature isolation and independent package evolution:
+
+```text
+lib/
+  main.dart
+  features/
+    select_country_feature/
+      lib/
+        select_country_module.dart
+        cross/
+          select_country_cross_impl.dart
+    checkout_feature/
+      lib/
+        checkout_module.dart
+  shared/
+    cross/
+      lib/
+        select_country_cross.dart
+```
+
+Both levels use the same `FeatureModule<ROUTER, INJECTOR>` composition model.
+
+## Feature boundary rules
+
+To support micro frontend and multi-package architectures, prefer these boundaries:
+
+- Feature modules depend on `shared` contracts, not on other feature internals.
+- Cross-feature integration goes through `CrossDependency` contracts in `shared`.
+- The owner feature provides the concrete implementation of its contract.
+- The app shell (`main`) composes enabled modules and wires dependencies.
 
 ## CrossDependency guidelines
 
