@@ -25,7 +25,7 @@ class RoutesListExampleApp extends StatelessWidget {
     return ModuleComposerBuilder<List<RouteBase>, SingleChildWidget>(
       composer: composer,
       loading: const MaterialApp(home: Scaffold(body: SizedBox.shrink())),
-      builder: (context, {required enabledModules, required injectors, required routers}) {
+      builder: (context, {required injectors, required routers}) {
         final router = GoRouter(
           routes: routers.expand((item) => item).toList(),
         );

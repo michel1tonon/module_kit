@@ -24,21 +24,7 @@ class ExampleBootstrapApp extends StatelessWidget {
 
     return ModuleComposerBuilder<RouteBase, SingleChildWidget>(
       composer: composer,
-      loading: const MaterialApp(
-        home: Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        ),
-      ),
-      errorBuilder: (context, error, _) {
-        return MaterialApp(
-          home: Scaffold(
-            body: Center(
-              child: Text('Erro ao inicializar modulos: $error'),
-            ),
-          ),
-        );
-      },
-      builder: (context, {required enabledModules, required injectors, required routers}) {
+      builder: (context, {required injectors, required routers}) {
         final router = GoRouter(
           initialLocation: '/',
           routes: routers,

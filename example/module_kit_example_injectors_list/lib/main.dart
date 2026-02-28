@@ -25,7 +25,7 @@ class InjectorsListExampleApp extends StatelessWidget {
     return ModuleComposerBuilder<RouteBase, List<SingleChildWidget>>(
       composer: composer,
       loading: const MaterialApp(home: Scaffold(body: SizedBox.shrink())),
-      builder: (context, {required enabledModules, required injectors, required routers}) {
+      builder: (context, {required injectors, required routers}) {
         final router = GoRouter(routes: routers);
         final providers = injectors.expand((item) => item).toList();
 
