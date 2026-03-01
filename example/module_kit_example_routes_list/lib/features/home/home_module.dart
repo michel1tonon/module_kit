@@ -8,28 +8,26 @@ import '../../shared/state/session_store.dart';
 import 'presentation/about_page.dart';
 import 'presentation/home_page.dart';
 
-class HomeModule extends FeatureModule<List<RouteBase>, SingleChildWidget> {
+class HomeModule extends FeatureModule<RouteBase, SingleChildWidget> {
   @override
   String get name => 'home';
 
   @override
-  SingleChildWidget getInjectors(BuildContext context) {
-    return ChangeNotifierProvider<SessionStore>(
-      create: (_) => SessionStore(),
-    );
-  }
+  Iterable<SingleChildWidget> getInjectors(BuildContext context) => [
+        ChangeNotifierProvider<SessionStore>(
+          create: (_) => SessionStore(),
+        ),
+      ];
 
   @override
-  List<RouteBase> getRouters(BuildContext context) {
-    return [
-      GoRoute(
-        path: '/',
-        builder: (_, __) => const HomePage(),
-      ),
-      GoRoute(
-        path: '/about',
-        builder: (_, __) => const AboutPage(),
-      ),
-    ];
-  }
+  Iterable<RouteBase> getRouters(BuildContext context) => [
+        GoRoute(
+          path: '/',
+          builder: (_, __) => const HomePage(),
+        ),
+        GoRoute(
+          path: '/about',
+          builder: (_, __) => const AboutPage(),
+        ),
+      ];
 }

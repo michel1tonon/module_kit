@@ -33,16 +33,14 @@ class ModuleComposer<ROUTER, INJECTOR> {
   List<INJECTOR> getInjectors(BuildContext context,
       List<FeatureModule<ROUTER, INJECTOR>> enabledModules) {
     return enabledModules
-        .map((module) => module.getInjectors(context))
-        .whereType<INJECTOR>()
+        .expand((module) => module.getInjectors(context))
         .toList();
   }
 
   List<ROUTER> getRouters(BuildContext context,
       List<FeatureModule<ROUTER, INJECTOR>> enabledModules) {
     return enabledModules
-        .map((module) => module.getRouters(context))
-        .whereType<ROUTER>()
+        .expand((module) => module.getRouters(context))
         .toList();
   }
 

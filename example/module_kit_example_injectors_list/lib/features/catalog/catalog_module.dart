@@ -9,32 +9,30 @@ import 'catalog_controller.dart';
 import 'catalog_repository.dart';
 import 'presentation/catalog_page.dart';
 
-class CatalogModule extends FeatureModule<RouteBase, List<SingleChildWidget>> {
+class CatalogModule extends FeatureModule<RouteBase, SingleChildWidget> {
   @override
   String get name => 'catalog';
 
   @override
-  List<SingleChildWidget> getInjectors(BuildContext context) {
-    return [
-      Provider<CatalogRepository>(
-        create: (_) => CatalogRepository(),
-      ),
-      Provider<FeatureFlags>(
-        create: (_) => const FeatureFlags(enablePromotions: true),
-      ),
-      ChangeNotifierProvider<CatalogController>(
-        create: (context) => CatalogController(
-          context.read<CatalogRepository>(),
+  Iterable<SingleChildWidget> getInjectors(BuildContext context) => [
+        Provider<CatalogRepository>(
+          create: (_) => CatalogRepository(),
         ),
-      ),
-    ];
-  }
+        Provider<FeatureFlags>(
+          create: (_) => const FeatureFlags(enablePromotions: true),
+        ),
+        ChangeNotifierProvider<CatalogController>(
+          create: (context) => CatalogController(
+            context.read<CatalogRepository>(),
+          ),
+        ),
+      ];
 
   @override
-  RouteBase getRouters(BuildContext context) {
-    return GoRoute(
-      path: '/',
-      builder: (_, __) => const CatalogPage(),
-    );
-  }
+  Iterable<RouteBase> getRouters(BuildContext context) => [
+        GoRoute(
+          path: '/',
+          builder: (_, __) => const CatalogPage(),
+        ),
+      ];
 }

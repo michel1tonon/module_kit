@@ -8,12 +8,12 @@ abstract class FeatureModule<ROUTER, INJECTOR> {
   String get name => runtimeType.toString();
 
   /// Define the routes for this module.
-  /// This can be a list of route definitions or a router object depending on your routing solution.
+  /// Return a collection of route contributions from this module.
   /// it can be GoRouter, AutoRoute, etc.
-  ROUTER? getRouters(BuildContext context);
+  Iterable<ROUTER> getRouters(BuildContext context) => const [];
 
   // it can be Provider, Bloc, Cubit, etc.
-  INJECTOR? getInjectors(BuildContext context);
+  Iterable<INJECTOR> getInjectors(BuildContext context) => const [];
 
   /// Whether the module is enabled or not.
   /// This can be used to conditionally enable/disable modules based on certain conditions

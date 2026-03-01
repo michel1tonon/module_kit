@@ -16,19 +16,17 @@ class RoutesListExampleApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final composer = ModuleComposer<List<RouteBase>, SingleChildWidget>()
+    final composer = ModuleComposer<RouteBase, SingleChildWidget>()
       ..addAll([
         HomeModule(),
         AccountModule(),
       ]);
 
-    return ModuleComposerBuilder<List<RouteBase>, SingleChildWidget>(
+    return ModuleComposerBuilder<RouteBase, SingleChildWidget>(
       composer: composer,
       loading: const MaterialApp(home: Scaffold(body: SizedBox.shrink())),
       builder: (context, {required injectors, required routers}) {
-        final router = GoRouter(
-          routes: routers.expand((item) => item).toList(),
-        );
+        final router = GoRouter(routes: routers);
 
         return MultiProvider(
           providers: injectors,

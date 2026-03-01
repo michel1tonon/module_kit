@@ -4,20 +4,18 @@ import 'package:module_kit/module_kit.dart';
 
 import 'presentation/account_page.dart';
 
-class AccountModule extends FeatureModule<List<RouteBase>, Never> {
+class AccountModule extends FeatureModule<RouteBase, Never> {
   @override
   String get name => 'account';
 
   @override
-  Never? getInjectors(BuildContext context) => null;
+  Iterable<Never> getInjectors(BuildContext context) => const [];
 
   @override
-  List<RouteBase> getRouters(BuildContext context) {
-    return [
-      GoRoute(
-        path: '/account',
-        builder: (_, __) => const AccountPage(),
-      ),
-    ];
-  }
+  Iterable<RouteBase> getRouters(BuildContext context) => [
+        GoRoute(
+          path: '/account',
+          builder: (_, __) => const AccountPage(),
+        ),
+      ];
 }

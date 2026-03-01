@@ -5,18 +5,18 @@ import 'package:provider/single_child_widget.dart';
 
 import 'presentation/settings_page.dart';
 
-class SettingsModule extends FeatureModule<RouteBase, List<SingleChildWidget>> {
+class SettingsModule extends FeatureModule<RouteBase, SingleChildWidget> {
   @override
   String get name => 'settings';
 
   @override
-  List<SingleChildWidget> getInjectors(BuildContext context) => const [];
+  Iterable<SingleChildWidget> getInjectors(BuildContext context) => const [];
 
   @override
-  RouteBase getRouters(BuildContext context) {
-    return GoRoute(
-      path: '/settings',
-      builder: (_, __) => const SettingsPage(),
-    );
-  }
+  Iterable<RouteBase> getRouters(BuildContext context) => [
+        GoRoute(
+          path: '/settings',
+          builder: (_, __) => const SettingsPage(),
+        ),
+      ];
 }

@@ -16,21 +16,20 @@ class InjectorsListExampleApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final composer = ModuleComposer<RouteBase, List<SingleChildWidget>>()
+    final composer = ModuleComposer<RouteBase, SingleChildWidget>()
       ..addAll([
         CatalogModule(),
         SettingsModule(),
       ]);
 
-    return ModuleComposerBuilder<RouteBase, List<SingleChildWidget>>(
+    return ModuleComposerBuilder<RouteBase, SingleChildWidget>(
       composer: composer,
       loading: const MaterialApp(home: Scaffold(body: SizedBox.shrink())),
       builder: (context, {required injectors, required routers}) {
         final router = GoRouter(routes: routers);
-        final providers = injectors.expand((item) => item).toList();
 
         return MultiProvider(
-          providers: providers,
+          providers: injectors,
           child: MaterialApp.router(
             title: 'module_kit injectors list example',
             routerConfig: router,

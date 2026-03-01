@@ -126,6 +126,14 @@ final composer = ModuleComposer<Object, Object>()
 
 Use `ModuleComposerBuilder` to resolve enabled modules and collect injectors/routers before building your app shell.
 
+## Examples
+
+- `example/module_kit_example_go_router_provider`: baseline composition with `go_router + provider` and `CrossDependency`.
+- `example/module_kit_example_navigator_get_it`: custom Navigator routes (`MapEntry`) with dependency registration via `get_it`.
+- `example/module_kit_example_go_router_riverpod`: composition with `go_router + flutter_riverpod` using `Override` contributions.
+
+Each example focuses on a different integration style while keeping the same `FeatureModule` and `ModuleComposer` contracts.
+
 ## Status
 
 The package focuses on small, stable contracts for modular composition.  

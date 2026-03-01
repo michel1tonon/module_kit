@@ -13,19 +13,19 @@ class CheckoutModule extends FeatureModule<RouteBase, SingleChildWidget> {
   String get name => 'checkout';
 
   @override
-  SingleChildWidget getInjectors(BuildContext context) {
-    return ChangeNotifierProvider<CheckoutController>(
-      create: (context) => CheckoutController(
-        context.read<SelectCountryCross>(),
-      ),
-    );
-  }
+  Iterable<SingleChildWidget> getInjectors(BuildContext context) => [
+        ChangeNotifierProvider<CheckoutController>(
+          create: (context) => CheckoutController(
+            context.read<SelectCountryCross>(),
+          ),
+        ),
+      ];
 
   @override
-  RouteBase getRouters(BuildContext context) {
-    return GoRoute(
-      path: '/',
-      builder: (_, __) => const CheckoutPage(),
-    );
-  }
+  Iterable<RouteBase> getRouters(BuildContext context) => [
+        GoRoute(
+          path: '/',
+          builder: (_, __) => const CheckoutPage(),
+        ),
+      ];
 }
