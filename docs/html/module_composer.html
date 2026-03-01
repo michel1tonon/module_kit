@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ModuleComposer - module_kit docs</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h1>module_kit docs</h1>
+        <div class="version">v1.0.0</div>
+
+        <div class="nav-group">
+          <div class="nav-title">Overview</div>
+          <a href="./index.html">Home</a>
+          <a href="./faq.html">FAQ</a>
+          <a href="./cookbook.html">Cookbook</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-title">Core Classes</div>
+          <a href="./feature_module.html">FeatureModule</a>
+          <a class="active" href="./module_composer.html">ModuleComposer</a>
+          <a href="./module_composer_builder.html">ModuleComposerBuilder</a>
+          <a href="./cross_dependency.html">CrossDependency</a>
+        </div>
+      </aside>
+
+      <main class="content">
+        <h1>ModuleComposer&lt;ROUTER, INJECTOR&gt;</h1>
+        <p>Aggregates enabled modules and extracts route/injector contributions.</p>
+
+        <h2>Important Clarification</h2>
+        <div class="callout">
+          A project can have multiple <code>ModuleComposer</code> instances, not just one.
+        </div>
+
+        <h2>Usage Patterns</h2>
+        <ul>
+          <li>Single global composer for the entire app.</li>
+          <li>One composer per domain (checkout, account, admin).</li>
+          <li>One composer per flow (onboarding, authenticated area, feature shell).</li>
+        </ul>
+
+        <h2>API Flow</h2>
+        <ol>
+          <li>Add modules with `addModule` or `addAll`.</li>
+          <li>Resolve enabled modules with `getAllEnabledModules`.</li>
+          <li>Collect contributions with `getInjectors` and `getRouters`.</li>
+        </ol>
+
+        <pre><code>final composer = ModuleComposer&lt;RouteBase, SingleChildWidget&gt;()
+  ..addAll([
+    CheckoutModule(),
+    SelectCountryModule(),
+  ]);
+
+final enabled = await composer.getAllEnabledModules(context);
+final injectors = composer.getInjectors(context, enabled);
+final routers = composer.getRouters(context, enabled);</code></pre>
+
+        <h2>Design Trade-off</h2>
+        <ul>
+          <li>More freedom, less forced convention.</li>
+          <li>Requires the app shell to complete wiring.</li>
+        </ul>
+
+        <p>
+          See also: <a href="./module_composer_builder.html">ModuleComposerBuilder</a>,
+          <a href="./feature_module.html">FeatureModule</a>
+        </p>
+
+        <footer>
+          Updated: 2026-02-28
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

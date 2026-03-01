@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FeatureModule - module_kit docs</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h1>module_kit docs</h1>
+        <div class="version">v1.0.0</div>
+
+        <div class="nav-group">
+          <div class="nav-title">Overview</div>
+          <a href="./index.html">Home</a>
+          <a href="./faq.html">FAQ</a>
+          <a href="./cookbook.html">Cookbook</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-title">Core Classes</div>
+          <a class="active" href="./feature_module.html">FeatureModule</a>
+          <a href="./module_composer.html">ModuleComposer</a>
+          <a href="./module_composer_builder.html">ModuleComposerBuilder</a>
+          <a href="./cross_dependency.html">CrossDependency</a>
+        </div>
+      </aside>
+
+      <main class="content">
+        <h1>FeatureModule&lt;ROUTER, INJECTOR&gt;</h1>
+        <p>Minimal contribution contract for a module.</p>
+
+        <h2>Main Responsibility</h2>
+        <ul>
+          <li>Declare module name, routes, injectors, and enabled status.</li>
+          <li>Can return empty (<code>const []</code>) when it contributes nothing.</li>
+        </ul>
+
+        <h2>API</h2>
+        <pre><code>abstract class FeatureModule&lt;ROUTER, INJECTOR&gt; {
+  String get name =&gt; runtimeType.toString();
+  Iterable&lt;ROUTER&gt; getRouters(BuildContext context) =&gt; const [];
+  Iterable&lt;INJECTOR&gt; getInjectors(BuildContext context) =&gt; const [];
+  FutureOr&lt;bool&gt; isEnabled(BuildContext context) =&gt; true;
+}</code></pre>
+
+        <h2>Practical Example / Exemplo Pratico</h2>
+        <pre><code>class CheckoutModule extends FeatureModule&lt;RouteBase, SingleChildWidget&gt; {
+  @override
+  String get name =&gt; 'checkout';
+
+  @override
+  Iterable&lt;SingleChildWidget&gt; getInjectors(BuildContext context) =&gt; [
+    ChangeNotifierProvider(create: (_) =&gt; CheckoutController()),
+  ];
+
+  @override
+  Iterable&lt;RouteBase&gt; getRouters(BuildContext context) =&gt; [
+    GoRoute(path: '/', builder: (_, __) =&gt; const CheckoutPage()),
+  ];
+}</code></pre>
+
+        <h2>Common Uses for isEnabled</h2>
+        <ul>
+          <li>Feature flags and experiments.</li>
+          <li>Role or permission checks.</li>
+          <li>Environment (dev/stage/prod) and remote config.</li>
+        </ul>
+
+        <p>
+          See also: <a href="./module_composer.html">ModuleComposer</a>,
+          <a href="./module_composer_builder.html">ModuleComposerBuilder</a>
+        </p>
+
+        <footer>
+          Updated: 2026-02-28
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

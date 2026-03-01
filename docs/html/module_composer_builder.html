@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ModuleComposerBuilder - module_kit docs</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h1>module_kit docs</h1>
+        <div class="version">v1.0.0</div>
+
+        <div class="nav-group">
+          <div class="nav-title">Overview</div>
+          <a href="./index.html">Home</a>
+          <a href="./faq.html">FAQ</a>
+          <a href="./cookbook.html">Cookbook</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-title">Core Classes</div>
+          <a href="./feature_module.html">FeatureModule</a>
+          <a href="./module_composer.html">ModuleComposer</a>
+          <a class="active" href="./module_composer_builder.html">ModuleComposerBuilder</a>
+          <a href="./cross_dependency.html">CrossDependency</a>
+        </div>
+      </aside>
+
+      <main class="content">
+        <h1>ModuleComposerBuilder&lt;ROUTER, INJECTOR&gt;</h1>
+        <p>Convenience widget for async bootstrap in the widget tree.</p>
+
+        <div class="callout">
+          Optional. Not required to use the library.
+        </div>
+
+        <h2>When To Use</h2>
+        <ul>
+          <li>You want enabled-module loading with built-in <code>loading</code> and <code>errorBuilder</code>.</li>
+          <li>You want simpler UI bootstrap.</li>
+        </ul>
+
+        <h2>Quick Example</h2>
+        <pre><code>return ModuleComposerBuilder&lt;RouteBase, SingleChildWidget&gt;(
+  composer: composer,
+  loading: const CircularProgressIndicator(),
+  builder: (context, {required injectors, required routers}) {
+    final router = GoRouter(routes: routers);
+    return MultiProvider(
+      providers: injectors,
+      child: MaterialApp.router(routerConfig: router),
+    );
+  },
+);</code></pre>
+
+        <h2>Without ModuleComposerBuilder (Manual)</h2>
+        <pre><code>final enabled = await composer.getAllEnabledModules(context);
+final injectors = composer.getInjectors(context, enabled);
+final routers = composer.getRouters(context, enabled);
+
+final router = GoRouter(routes: routers);
+return MultiProvider(
+  providers: injectors,
+  child: MaterialApp.router(routerConfig: router),
+);</code></pre>
+
+        <p>
+          See also: <a href="./module_composer.html">ModuleComposer</a>
+        </p>
+
+        <footer>
+          Updated: 2026-02-28
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

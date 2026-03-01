@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>module_kit docs</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h1>module_kit docs</h1>
+        <div class="version">v1.0.0</div>
+
+        <div class="nav-group">
+          <div class="nav-title">Overview</div>
+          <a class="active" href="./index.html">Home</a>
+          <a href="./faq.html">FAQ</a>
+          <a href="./cookbook.html">Cookbook</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-title">Core Classes</div>
+          <a href="./feature_module.html">FeatureModule</a>
+          <a href="./module_composer.html">ModuleComposer</a>
+          <a href="./module_composer_builder.html">ModuleComposerBuilder</a>
+          <a href="./cross_dependency.html">CrossDependency</a>
+        </div>
+      </aside>
+
+      <main class="content">
+        <h1>module_kit Documentation</h1>
+        <p class="muted">Practical documentation for modular composition in Flutter.</p>
+
+        <section class="callout">
+          This library does not do anything by itself. You still need to wire dependency injection and routes in the app shell, otherwise it will not work.
+          <p>
+            <em>This lib does not do magic, but remember: every magic has a price. :)</em>
+          </p>
+        </section>
+
+        <h2>Philosophy</h2>
+        <ul>
+          <li>Modular composition with small and predictable contracts.</li>
+          <li>Supports micro frontends and multi-package setups, without forcing architecture.</li>
+        </ul>
+
+        <h2>Design Decisions</h2>
+        <ul>
+          <li>Freedom over rigid conventions.</li>
+          <li><code>FeatureModule</code> contributes routes and injectors.</li>
+          <li><code>ModuleComposer</code> aggregates enabled modules.</li>
+          <li><code>ModuleComposerBuilder</code> is optional.</li>
+          <li><code>CrossDependency</code> encourages self-contained modules.</li>
+        </ul>
+
+        <h2>Quick Navigation</h2>
+        <ul>
+          <li><a href="./feature_module.html">FeatureModule</a></li>
+          <li><a href="./module_composer.html">ModuleComposer</a></li>
+          <li><a href="./module_composer_builder.html">ModuleComposerBuilder</a></li>
+          <li><a href="./cross_dependency.html">CrossDependency</a></li>
+          <li><a href="./faq.html">FAQ</a></li>
+          <li><a href="./cookbook.html">Cookbook</a></li>
+        </ul>
+
+        <h2>When Not To Use</h2>
+        <ul>
+          <li>Very small app with no need for modular boundaries.</li>
+          <li>Team expects a fully opinionated framework with everything prewired.</li>
+        </ul>
+
+        <footer>
+          Updated: 2026-02-28
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cookbook - module_kit docs</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h1>module_kit docs</h1>
+        <div class="version">v1.0.0</div>
+
+        <div class="nav-group">
+          <div class="nav-title">Overview</div>
+          <a href="./index.html">Home</a>
+          <a href="./faq.html">FAQ</a>
+          <a class="active" href="./cookbook.html">Cookbook</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-title">Core Classes</div>
+          <a href="./feature_module.html">FeatureModule</a>
+          <a href="./module_composer.html">ModuleComposer</a>
+          <a href="./module_composer_builder.html">ModuleComposerBuilder</a>
+          <a href="./cross_dependency.html">CrossDependency</a>
+        </div>
+      </aside>
+
+      <main class="content">
+        <h1>Cookbook</h1>
+        <p>Short and practical recipes.</p>
+
+        <h2>Recipe 1: go_router + provider</h2>
+        <pre><code>final composer = ModuleComposer&lt;RouteBase, SingleChildWidget&gt;()
+  ..addAll([FeatureA(), FeatureB()]);
+
+return ModuleComposerBuilder&lt;RouteBase, SingleChildWidget&gt;(
+  composer: composer,
+  builder: (context, {required injectors, required routers}) {
+    return MultiProvider(
+      providers: injectors,
+      child: MaterialApp.router(
+        routerConfig: GoRouter(routes: routers),
+      ),
+    );
+  },
+);</code></pre>
+
+        <h2>Recipe 2: Navigator + get_it</h2>
+        <pre><code>typedef RouteEntry = MapEntry&lt;String, WidgetBuilder&gt;;
+typedef RegisterDependency = void Function(GetIt sl);
+
+final composer = ModuleComposer&lt;RouteEntry, RegisterDependency&gt;();
+final enabled = await composer.getAllEnabledModules(context);
+final routes = composer.getRouters(context, enabled);
+final regs = composer.getInjectors(context, enabled);</code></pre>
+
+        <h2>Recipe 3: go_router + riverpod overrides</h2>
+        <pre><code>final composer = ModuleComposer&lt;RouteBase, Override&gt;();
+
+return ModuleComposerBuilder&lt;RouteBase, Override&gt;(
+  composer: composer,
+  builder: (context, {required injectors, required routers}) {
+    return ProviderScope(
+      overrides: injectors,
+      child: MaterialApp.router(
+        routerConfig: GoRouter(routes: routers),
+      ),
+    );
+  },
+);</code></pre>
+
+        <h2>Recipe 4: Conditional Module (isEnabled)</h2>
+        <pre><code>@override
+FutureOr&lt;bool&gt; isEnabled(BuildContext context) {
+  return remoteConfig.enableCheckout;
+}</code></pre>
+
+        <h2>Recipe 5: CrossDependency boundary</h2>
+        <pre><code>// shared
+abstract class SelectCountryCross
+    implements CrossDependency&lt;Future&lt;String?&gt;, SelectCountryInput&gt; {}
+
+// owner module
+class SelectCountryCrossImpl implements SelectCountryCross { ... }</code></pre>
+
+        <p>
+          See also: <a href="./faq.html">FAQ</a>,
+          <a href="./cross_dependency.html">CrossDependency</a>
+        </p>
+
+        <footer>
+          Updated: 2026-02-28
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

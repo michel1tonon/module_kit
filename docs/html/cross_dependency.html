@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CrossDependency - module_kit docs</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h1>module_kit docs</h1>
+        <div class="version">v1.0.0</div>
+
+        <div class="nav-group">
+          <div class="nav-title">Overview</div>
+          <a href="./index.html">Home</a>
+          <a href="./faq.html">FAQ</a>
+          <a href="./cookbook.html">Cookbook</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-title">Core Classes</div>
+          <a href="./feature_module.html">FeatureModule</a>
+          <a href="./module_composer.html">ModuleComposer</a>
+          <a href="./module_composer_builder.html">ModuleComposerBuilder</a>
+          <a class="active" href="./cross_dependency.html">CrossDependency</a>
+        </div>
+      </aside>
+
+      <main class="content">
+        <h1>CrossDependency&lt;RETURN, PARAM&gt;</h1>
+        <p>Simple contract for module-to-module communication without importing internals.</p>
+
+        <h2>Why It Matters</h2>
+        <ul>
+          <li>Encourages self-contained modules.</li>
+          <li>Avoids direct feature coupling.</li>
+          <li>Eases evolution to multi-package architecture.</li>
+        </ul>
+
+        <h2>Architectural View</h2>
+        <ul>
+          <li>Treat <code>CrossDependency</code> as a boundary port between modules.</li>
+          <li>The contract belongs to a stable shared layer, not to feature internals.</li>
+          <li>The owner feature provides the adapter/implementation.</li>
+          <li>Consumer features depend only on the contract, preserving dependency direction.</li>
+          <li>This keeps modules replaceable, testable, and ready for micro frontend evolution.</li>
+        </ul>
+
+        <h2>Practical Contract + Implementation</h2>
+        <pre><code>abstract class SelectCountryCross
+    implements CrossDependency&lt;Future&lt;String?&gt;, SelectCountryInput&gt; {}
+
+class SelectCountryCrossImpl implements SelectCountryCross {
+  @override
+  Future&lt;String?&gt; call(SelectCountryInput param) async {
+    // owner module flow
+    return 'BR';
+  }
+}</code></pre>
+
+        <h2>Recommended Boundary</h2>
+        <ul>
+          <li>Keep the contract in <code>shared</code>.</li>
+          <li>Keep implementation in the owner feature module.</li>
+          <li>Consumers should depend on the contract, not concrete internals.</li>
+        </ul>
+
+        <p>
+          See also: <a href="./feature_module.html">FeatureModule</a>,
+          <a href="./cookbook.html">Cookbook</a>
+        </p>
+
+        <footer>
+          Updated: 2026-02-28
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

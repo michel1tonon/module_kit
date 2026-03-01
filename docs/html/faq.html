@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ - module_kit docs</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h1>module_kit docs</h1>
+        <div class="version">v1.0.0</div>
+
+        <div class="nav-group">
+          <div class="nav-title">Overview</div>
+          <a href="./index.html">Home</a>
+          <a class="active" href="./faq.html">FAQ</a>
+          <a href="./cookbook.html">Cookbook</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-title">Core Classes</div>
+          <a href="./feature_module.html">FeatureModule</a>
+          <a href="./module_composer.html">ModuleComposer</a>
+          <a href="./module_composer_builder.html">ModuleComposerBuilder</a>
+          <a href="./cross_dependency.html">CrossDependency</a>
+        </div>
+      </aside>
+
+      <main class="content">
+        <h1>FAQ</h1>
+
+        <h2>Can I use multiple ModuleComposer instances?</h2>
+        <p>Yes. You can have one global, per domain, or per flow.</p>
+
+        <h2>Do I need ModuleComposerBuilder?</h2>
+        <p>No. It is only a convenience bootstrap widget.</p>
+
+        <h2>Is CrossDependency mandatory?</h2>
+        <p>Not mandatory, but strongly recommended for self-contained modules.</p>
+
+        <h2>What happens if I do not wire routes/injectors in app shell?</h2>
+        <p>Modules will not be reachable and dependencies will not be registered.</p>
+
+        <h2>Does this package force go_router, provider, or a single stack?</h2>
+        <p>No. The library is router and DI/state-management agnostic.</p>
+
+        <h2>Is module_kit good for micro frontends and multi-package?</h2>
+        <p>Yes. It enables contract boundaries and shell-level composition.</p>
+
+        <h2>When should I avoid using module_kit?</h2>
+        <p>In very small apps or when the team expects a fully opinionated framework.</p>
+
+        <footer>
+          Updated: 2026-02-28
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>
