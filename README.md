@@ -12,6 +12,12 @@ This package is **not a framework**.
 
 The goal is to stay as invisible as possible: small contracts, predictable composition, and freedom for your team to keep coding the way it already does.
 
+It also means this library does not do anything by itself.
+You still need to finish wiring dependency injection and route registration in your app shell.
+If those final steps are missing, your modules will not be reachable.
+
+This lib does not do magic, but remember: every magic has a price. :)
+
 ## Micro frontends and multi-package friendly
 
 `module_kit` works well for teams that want to scale features as isolated modules.
