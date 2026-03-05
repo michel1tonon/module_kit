@@ -124,13 +124,42 @@ This keeps boundaries explicit and avoids leaking feature internals across modul
 ## Quick start
 
 ```dart
-final composer = ModuleComposer<Object, Object>()
-  ..addAll([
-    // FeatureModule<Object, Object> implementations
-  ]);
+// Requires: module_kit, go_router, provider
+
+// 1) Define a feature module
+class HomeModule extends FeatureModule<GoRoute, SingleChildWidget> {
+  @override
+  String get name => 'home';
+
+  @override
+  Iterable<GoRoute> getRouters(BuildContext context) => [
+        GoRoute(path: '/', builder: (_, __) => const HomePage()),
+      ];
+
+  @override
+  Iterable<SingleChildWidget> getInjectors(BuildContext context) => [
+        Provider(create: (_) => HomeController()),
+      ];
+}
+
+// 2) Compose modules and bootstrap
+final composer = ModuleComposer<GoRoute, SingleChildWidget>()
+  ..addAll([HomeModule()]);
+
+return ModuleComposerBuilder<GoRoute, SingleChildWidget>(
+  composer: composer,
+  loading: const CircularProgressIndicator(),
+  builder: (context, {required injectors, required routers}) {
+    final router = GoRouter(routes: routers);
+    return MultiProvider(
+      providers: injectors,
+      child: MaterialApp.router(routerConfig: router),
+    );
+  },
+);
 ```
 
-Use `ModuleComposerBuilder` to resolve enabled modules and collect injectors/routers before building your app shell.
+You still need to wire the collected `routers` and `injectors` into your app (as shown above). If you skip that, nothing will work.
 
 ## Examples
 
