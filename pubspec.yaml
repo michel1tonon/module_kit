@@ -1,5 +1,5 @@
 name: module_kit
-description: A starting point for Dart libraries or applications.
+description: A library for creating projects with self-contained modules in Flutter.
 version: 1.0.0
 
 environment:
@@ -10,5 +10,8 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
+  flutter_test:
+    sdk: flutter
   lints: ^4.0.0
   test: ^1.24.0
+  
