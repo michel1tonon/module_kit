@@ -54,6 +54,35 @@
   },
 );</code></pre>
 
+        <h2>Retry with errorBuilder</h2>
+        <p>Use a <code>StatefulWidget</code> and pass a changing <code>key</code> to force rebuild on retry:</p>
+        <pre><code>class _RetryBootstrapState extends State&lt;_RetryBootstrap&gt; {
+  Object _retryKey = Object();
+
+  void _retry() => setState(() => _retryKey = Object());
+
+  @override
+  Widget build(BuildContext context) {
+    return ModuleComposerBuilder&lt;RouteBase, SingleChildWidget&gt;(
+      key: ValueKey(_retryKey),
+      composer: composer,
+      loading: const CircularProgressIndicator(),
+      errorBuilder: (context, error, stackTrace) =&gt; Scaffold(
+        body: Center(
+          child: Column(
+            children: [
+              Text(error.toString()),
+              FilledButton(onPressed: _retry, child: Text('Retry')),
+            ],
+          ),
+        ),
+      ),
+      builder: (context, {required injectors, required routers}) =&gt; ...,
+    );
+  }
+}</code></pre>
+        <p>See <code>example/module_kit_example_retry</code> for a full app.</p>
+
         <h2>Without ModuleComposerBuilder (Manual)</h2>
         <pre><code>final enabled = await composer.getAllEnabledModules(context);
 final injectors = composer.getInjectors(context, enabled);

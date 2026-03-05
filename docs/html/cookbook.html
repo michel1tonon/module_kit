@@ -85,6 +85,24 @@ abstract class SelectCountryCross
 // owner module
 class SelectCountryCrossImpl implements SelectCountryCross { ... }</code></pre>
 
+        <h2>Recipe 6: Retry with errorBuilder</h2>
+        <pre><code>// StatefulWidget with retryKey
+void _retry() => setState(() => _retryKey = Object());
+
+ModuleComposerBuilder(
+  key: ValueKey(_retryKey),
+  errorBuilder: (ctx, err, st) =&gt; Scaffold(
+    body: Center(
+      child: FilledButton(
+        onPressed: _retry,
+        child: Text('Retry'),
+      ),
+    ),
+  ),
+  ...,
+)</code></pre>
+        <p>Full example: <code>example/module_kit_example_retry</code>.</p>
+
         <p>
           See also: <a href="./faq.html">FAQ</a>,
           <a href="./cross_dependency.html">CrossDependency</a>
