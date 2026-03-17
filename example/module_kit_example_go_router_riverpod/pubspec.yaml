@@ -12,6 +12,10 @@ dependencies:
     path: ../../
   go_router: any
   flutter_riverpod: any
+  flutter_lints: any
+
+dev_dependencies:
+  lints: any
 
 flutter:
   uses-material-design: true
