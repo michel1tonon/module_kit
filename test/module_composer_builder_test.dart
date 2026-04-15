@@ -61,7 +61,7 @@ void main() {
       );
 
       await tester.pumpAndSettle();
-      expect(find.textContaining('error: bad router module'), findsOneWidget);
+      expect(find.textContaining('error: Bad state: bad router module'), findsOneWidget);
     });
   });
 }
