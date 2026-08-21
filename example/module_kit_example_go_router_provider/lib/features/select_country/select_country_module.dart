@@ -13,14 +13,14 @@ class SelectCountryModule extends FeatureModule<RouteBase, SingleChildWidget> {
   String get name => 'select_country';
 
   @override
-  Iterable<SingleChildWidget> getInjectors(BuildContext context) => [
+  Iterable<SingleChildWidget> injectors(BuildContext context) => [
         Provider<SelectCountryCross>(
           create: (_) => SelectCountryCrossImpl(),
         ),
       ];
 
   @override
-  Iterable<RouteBase> getRouters(BuildContext context) => [
+  Iterable<RouteBase> routers(BuildContext context) => [
         GoRoute(
           path: '/select-country',
           builder: (_, __) => const SelectCountryPage(),

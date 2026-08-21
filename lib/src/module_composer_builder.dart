@@ -55,8 +55,8 @@ class ModuleComposerBuilder<ROUTER, INJECTOR> extends StatelessWidget {
       BuildContext context) async {
     final enabledModules = await composer.getAllEnabledModules(context);
 
-    final injectors = composer.getInjectors(context, enabledModules);
-    final routers = composer.getRouters(context, enabledModules);
+    final injectors = composer.injectors(context, enabledModules);
+    final routers = composer.routers(context, enabledModules);
 
     return _ComposerSnapshot(
       injectors: injectors,

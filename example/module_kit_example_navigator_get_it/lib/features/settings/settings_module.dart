@@ -14,7 +14,7 @@ class SettingsModule
   Future<bool> isEnabled(BuildContext context) async => FeatureFlags.enableSettings;
 
   @override
-  Iterable<MapEntry<String, WidgetBuilder>> getRouters(BuildContext context) => [
+  Iterable<MapEntry<String, WidgetBuilder>> routers(BuildContext context) => [
         MapEntry('/settings', (_) => const SettingsPage()),
       ];
 }

@@ -11,12 +11,12 @@ class HomeModule extends FeatureModule<RouteBase, Override> {
   String get name => 'home';
 
   @override
-  Iterable<Override> getInjectors(BuildContext context) => [
+  Iterable<Override> injectors(BuildContext context) => [
         homeTitleProvider.overrideWith((ref) => 'Home powered by HomeModule'),
       ];
 
   @override
-  Iterable<RouteBase> getRouters(BuildContext context) => [
+  Iterable<RouteBase> routers(BuildContext context) => [
         GoRoute(
           path: '/',
           builder: (_, __) => const HomePage(),

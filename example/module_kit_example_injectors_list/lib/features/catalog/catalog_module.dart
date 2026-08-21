@@ -14,7 +14,7 @@ class CatalogModule extends FeatureModule<RouteBase, SingleChildWidget> {
   String get name => 'catalog';
 
   @override
-  Iterable<SingleChildWidget> getInjectors(BuildContext context) => [
+  Iterable<SingleChildWidget> injectors(BuildContext context) => [
         Provider<CatalogRepository>(
           create: (_) => CatalogRepository(),
         ),
@@ -29,7 +29,7 @@ class CatalogModule extends FeatureModule<RouteBase, SingleChildWidget> {
       ];
 
   @override
-  Iterable<RouteBase> getRouters(BuildContext context) => [
+  Iterable<RouteBase> routers(BuildContext context) => [
         GoRoute(
           path: '/',
           builder: (_, __) => const CatalogPage(),

@@ -30,27 +30,27 @@ class ModuleComposer<ROUTER, INJECTOR> {
     return result;
   }
 
-  List<INJECTOR> getInjectors(BuildContext context,
+  List<INJECTOR> injectors(BuildContext context,
       List<FeatureModule<ROUTER, INJECTOR>> enabledModules) {
     return enabledModules
-        .expand((module) => module.getInjectors(context))
+        .expand((module) => module.injectors(context))
         .toList();
   }
 
-  List<ROUTER> getRouters(BuildContext context,
+  List<ROUTER> routers(BuildContext context,
       List<FeatureModule<ROUTER, INJECTOR>> enabledModules) {
     return enabledModules
-        .expand((module) => module.getRouters(context))
+        .expand((module) => module.routers(context))
         .toList();
   }
 
-  Future<List<INJECTOR>> getInjectorsAsync(BuildContext context) async {
+  Future<List<INJECTOR>> injectorsAsync(BuildContext context) async {
     final enabledModules = await getAllEnabledModules(context);
-    return getInjectors(context, enabledModules);
+    return injectors(context, enabledModules);
   }
 
-  Future<List<ROUTER>> getRoutersAsync(BuildContext context) async {
+  Future<List<ROUTER>> routersAsync(BuildContext context) async {
     final enabledModules = await getAllEnabledModules(context);
-    return getRouters(context, enabledModules);
+    return routers(context, enabledModules);
   }
 }

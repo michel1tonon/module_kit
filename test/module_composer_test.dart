@@ -21,21 +21,21 @@ void main() {
         ..addModule(_TestModule(
           nameValue: 'enabled_a',
           enabled: true,
-          routers: const ['r1'],
-          injectors: const [1],
+          paramRouters: const ['r1'],
+          paramInjectors: const [1],
         ))
         ..addAll([
           _TestModule(
             nameValue: 'disabled',
             enabled: false,
-            routers: const ['r2'],
-            injectors: const [2],
+            paramRouters: const ['r2'],
+            paramInjectors: const [2],
           ),
           _TestModule(
             nameValue: 'enabled_b',
             enabled: true,
-            routers: const ['r3'],
-            injectors: const [3],
+            paramRouters: const ['r3'],
+            paramInjectors: const [3],
           ),
         ]);
 
@@ -62,20 +62,20 @@ void main() {
           _TestModule(
             nameValue: 'a',
             enabled: true,
-            routers: const ['home', 'about'],
-            injectors: const [1, 2],
+            paramRouters: const ['home', 'about'],
+            paramInjectors: const [1, 2],
           ),
           _TestModule(
             nameValue: 'b',
             enabled: true,
-            routers: const ['settings'],
-            injectors: const [3],
+            paramRouters: const ['settings'],
+            paramInjectors: const [3],
           ),
         ]);
 
       final enabled = await composer.getAllEnabledModules(context);
-      expect(composer.getRouters(context, enabled), ['home', 'about', 'settings']);
-      expect(composer.getInjectors(context, enabled), [1, 2, 3]);
+      expect(composer.routers(context, enabled), ['home', 'about', 'settings']);
+      expect(composer.injectors(context, enabled), [1, 2, 3]);
     });
 
     testWidgets('should resolve async injectors and routers', (tester) async {
@@ -96,19 +96,19 @@ void main() {
           _TestModule(
             nameValue: 'a',
             enabled: true,
-            routers: const ['one'],
-            injectors: const [10],
+            paramRouters: const ['one'],
+            paramInjectors: const [10],
           ),
           _TestModule(
             nameValue: 'b',
             enabled: true,
-            routers: const ['two'],
-            injectors: const [20],
+            paramRouters: const ['two'],
+            paramInjectors: const [20],
           ),
         ]);
 
-      final routers = await composer.getRoutersAsync(context);
-      final injectors = await composer.getInjectorsAsync(context);
+      final routers = await composer.routersAsync(context);
+      final injectors = await composer.injectorsAsync(context);
 
       expect(routers, ['one', 'two']);
       expect(injectors, [10, 20]);
@@ -131,8 +131,8 @@ void main() {
         ..addModule(_TestModule(
           nameValue: 'a',
           enabled: true,
-          routers: const ['x'],
-          injectors: const [1],
+          paramRouters: const ['x'],
+          paramInjectors: const [1],
         ));
 
       composer.clearModules();
@@ -146,23 +146,23 @@ class _TestModule extends FeatureModule<String, int> {
   _TestModule({
     required this.nameValue,
     required this.enabled,
-    required this.routers,
-    required this.injectors,
+    required this.paramRouters,
+    required this.paramInjectors,
   });
 
   final String nameValue;
   final bool enabled;
-  final List<String> routers;
-  final List<int> injectors;
+  final List<String> paramRouters;
+  final List<int> paramInjectors;
 
   @override
   String get name => nameValue;
 
   @override
-  Iterable<String> getRouters(BuildContext context) => routers;
+  Iterable<String> routers(BuildContext context) => paramRouters;
 
   @override
-  Iterable<int> getInjectors(BuildContext context) => injectors;
+  Iterable<int> injectors(BuildContext context) => paramInjectors;
 
   @override
   Future<bool> isEnabled(BuildContext context) async => enabled;

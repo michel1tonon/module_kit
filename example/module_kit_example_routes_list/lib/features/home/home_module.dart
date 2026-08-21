@@ -13,14 +13,14 @@ class HomeModule extends FeatureModule<RouteBase, SingleChildWidget> {
   String get name => 'home';
 
   @override
-  Iterable<SingleChildWidget> getInjectors(BuildContext context) => [
+  Iterable<SingleChildWidget> injectors(BuildContext context) => [
         ChangeNotifierProvider<SessionStore>(
           create: (_) => SessionStore(),
         ),
       ];
 
   @override
-  Iterable<RouteBase> getRouters(BuildContext context) => [
+  Iterable<RouteBase> routers(BuildContext context) => [
         GoRoute(
           path: '/',
           builder: (_, __) => const HomePage(),

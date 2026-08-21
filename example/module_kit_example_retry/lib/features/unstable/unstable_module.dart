@@ -24,12 +24,12 @@ class UnstableModule extends FeatureModule<RouteBase, SingleChildWidget> {
   }
 
   @override
-  Iterable<SingleChildWidget> getInjectors(BuildContext context) => [
+  Iterable<SingleChildWidget> injectors(BuildContext context) => [
         Provider(create: (_) => 0),
       ];
 
   @override
-  Iterable<RouteBase> getRouters(BuildContext context) => [
+  Iterable<RouteBase> routers(BuildContext context) => [
         GoRoute(
           path: '/',
           builder: (_, __) => const UnstablePage(),

@@ -25,8 +25,8 @@ void main() {
       );
 
       final module = _DefaultFeatureModule();
-      expect(module.getRouters(context), isEmpty);
-      expect(module.getInjectors(context), isEmpty);
+      expect(module.routers(context), isEmpty);
+      expect(module.injectors(context), isEmpty);
     });
 
     testWidgets('should be enabled by default', (tester) async {

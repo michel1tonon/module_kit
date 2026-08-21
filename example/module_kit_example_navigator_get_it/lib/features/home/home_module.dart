@@ -11,7 +11,7 @@ class HomeModule
   String get name => 'home';
 
   @override
-  Iterable<MapEntry<String, WidgetBuilder>> getRouters(BuildContext context) => [
+  Iterable<MapEntry<String, WidgetBuilder>> routers(BuildContext context) => [
         MapEntry(
           '/',
           (_) {

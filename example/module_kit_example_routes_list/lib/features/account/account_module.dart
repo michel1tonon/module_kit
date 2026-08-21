@@ -9,10 +9,10 @@ class AccountModule extends FeatureModule<RouteBase, Never> {
   String get name => 'account';
 
   @override
-  Iterable<Never> getInjectors(BuildContext context) => const [];
+  Iterable<Never> injectors(BuildContext context) => const [];
 
   @override
-  Iterable<RouteBase> getRouters(BuildContext context) => [
+  Iterable<RouteBase> routers(BuildContext context) => [
         GoRoute(
           path: '/account',
           builder: (_, __) => const AccountPage(),

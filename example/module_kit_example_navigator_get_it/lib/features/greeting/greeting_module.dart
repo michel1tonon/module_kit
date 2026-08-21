@@ -11,7 +11,7 @@ class GreetingModule
   String get name => 'greeting';
 
   @override
-  Iterable<void Function(GetIt)> getInjectors(BuildContext context) => [
+  Iterable<void Function(GetIt)> injectors(BuildContext context) => [
         (sl) {
           if (!sl.isRegistered<GreetingCross>()) {
             sl.registerLazySingleton<GreetingCross>(GreetingCrossImpl.new);

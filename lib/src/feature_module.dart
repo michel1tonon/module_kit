@@ -10,10 +10,10 @@ abstract class FeatureModule<ROUTER, INJECTOR> {
   /// Define the routes for this module.
   /// Return a collection of route contributions from this module.
   /// it can be GoRouter, AutoRoute, etc.
-  Iterable<ROUTER> getRouters(BuildContext context) => const [];
+  Iterable<ROUTER> routers(BuildContext context) => const [];
 
   // it can be Provider, Bloc, Cubit, etc.
-  Iterable<INJECTOR> getInjectors(BuildContext context) => const [];
+  Iterable<INJECTOR> injectors(BuildContext context) => const [];
 
   /// Whether the module is enabled or not.
   /// This can be used to conditionally enable/disable modules based on certain conditions

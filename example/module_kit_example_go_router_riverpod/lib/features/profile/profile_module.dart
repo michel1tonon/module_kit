@@ -17,12 +17,12 @@ class ProfileModule extends FeatureModule<RouteBase, Override> {
   FutureOr<bool> isEnabled(BuildContext context) => FeatureFlags.enableProfile;
 
   @override
-  Iterable<Override> getInjectors(BuildContext context) => [
+  Iterable<Override> injectors(BuildContext context) => [
         profileBadgeProvider.overrideWith((ref) => 'Pro'),
       ];
 
   @override
-  Iterable<RouteBase> getRouters(BuildContext context) => [
+  Iterable<RouteBase> routers(BuildContext context) => [
         GoRoute(
           path: '/profile',
           builder: (_, __) => const ProfilePage(),

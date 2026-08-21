@@ -9,12 +9,12 @@ void main() {
       final composer = ModuleComposer<String, int>()
         ..addAll([
           _BuilderTestModule(
-            routers: const ['home', 'settings'],
-            injectors: const [1, 2],
+            paramRouters: const ['home', 'settings'],
+            paramInjectors: const [1, 2],
           ),
           _BuilderTestModule(
-            routers: const ['profile'],
-            injectors: const [3],
+            paramRouters: const ['profile'],
+            paramInjectors: const [3],
           ),
         ]);
 
@@ -68,23 +68,23 @@ void main() {
 
 class _BuilderTestModule extends FeatureModule<String, int> {
   _BuilderTestModule({
-    required this.routers,
-    required this.injectors,
+    required this.paramRouters,
+    required this.paramInjectors,
   });
 
-  final List<String> routers;
-  final List<int> injectors;
+  final List<String> paramRouters;
+  final List<int> paramInjectors;
 
   @override
-  Iterable<String> getRouters(BuildContext context) => routers;
+  Iterable<String> routers(BuildContext context) => paramRouters;
 
   @override
-  Iterable<int> getInjectors(BuildContext context) => injectors;
+  Iterable<int> injectors(BuildContext context) => paramInjectors;
 }
 
 class _ThrowingModule extends FeatureModule<String, int> {
   @override
-  Iterable<String> getRouters(BuildContext context) {
+  Iterable<String> routers(BuildContext context) {
     throw StateError('bad router module');
   }
 }

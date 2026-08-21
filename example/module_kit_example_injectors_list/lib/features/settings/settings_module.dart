@@ -10,10 +10,10 @@ class SettingsModule extends FeatureModule<RouteBase, SingleChildWidget> {
   String get name => 'settings';
 
   @override
-  Iterable<SingleChildWidget> getInjectors(BuildContext context) => const [];
+  Iterable<SingleChildWidget> injectors(BuildContext context) => const [];
 
   @override
-  Iterable<RouteBase> getRouters(BuildContext context) => [
+  Iterable<RouteBase> routers(BuildContext context) => [
         GoRoute(
           path: '/settings',
           builder: (_, __) => const SettingsPage(),
