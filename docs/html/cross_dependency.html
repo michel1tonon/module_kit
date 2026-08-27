@@ -76,6 +76,16 @@ class SelectCountryCrossImpl implements SelectCountryCross {
           <li>Consumers should depend on the contract, not concrete internals.</li>
         </ul>
 
+        <h2>What It Does Not Solve</h2>
+        <section class="callout">
+          <strong>Cyclic dependencies.</strong>
+          <code>CrossDependency</code> defines a communication boundary — it does not break
+          dependency cycles between features. If two modules need each other, that tension
+          must be resolved at the <strong>Application</strong> (app shell) level: compose modules,
+          wire implementations, and orchestrate flows there — not by letting features depend
+          on one another directly.
+        </section>
+
         <p>
           See also: <a href="./feature_module.html">FeatureModule</a>,
           <a href="./cookbook.html">Cookbook</a>
