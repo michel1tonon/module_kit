@@ -78,11 +78,11 @@ FutureOr&lt;bool&gt; isEnabled(BuildContext context) {
 }</code></pre>
 
         <h2>Recipe 5: CrossDependency boundary</h2>
-        <pre><code>// shared
+        <pre><code>// src/shared/cross/select_country_cross.dart
 abstract class SelectCountryCross
     implements CrossDependency&lt;Future&lt;String?&gt;, SelectCountryInput&gt; {}
 
-// owner module
+// features/select_country/cross/select_country_cross_impl.dart
 class SelectCountryCrossImpl implements SelectCountryCross { ... }</code></pre>
 
         <h2>Recipe 6: Retry with errorBuilder</h2>

@@ -31,6 +31,14 @@
         <h1>CrossDependency&lt;RETURN, PARAM&gt;</h1>
         <p>Simple contract for module-to-module communication without importing internals.</p>
 
+        <section class="callout">
+          <strong>Convention, not a requirement.</strong>
+          This class exists to establish a common pattern and to remind engineers
+          that cross-module integration can be modeled through explicit boundaries.
+          It is optional: if a local interface or abstract class in your codebase
+          serves the same purpose, use that instead.
+        </section>
+
         <h2>Why It Matters</h2>
         <ul>
           <li>Encourages self-contained modules.</li>
@@ -41,16 +49,18 @@
         <h2>Architectural View</h2>
         <ul>
           <li>Treat <code>CrossDependency</code> as a boundary port between modules.</li>
-          <li>The contract belongs to a stable shared layer, not to feature internals.</li>
+          <li>All contracts belong in <code>src/shared</code>, not inside feature internals — this keeps them visible to the entire project.</li>
           <li>The owner feature provides the adapter/implementation.</li>
           <li>Consumer features depend only on the contract, preserving dependency direction.</li>
           <li>This keeps modules replaceable, testable, and ready for micro frontend evolution.</li>
         </ul>
 
         <h2>Practical Contract + Implementation</h2>
-        <pre><code>abstract class SelectCountryCross
+        <pre><code>// src/shared/cross/select_country_cross.dart
+abstract class SelectCountryCross
     implements CrossDependency&lt;Future&lt;String?&gt;, SelectCountryInput&gt; {}
 
+// features/select_country/cross/select_country_cross_impl.dart
 class SelectCountryCrossImpl implements SelectCountryCross {
   @override
   Future&lt;String?&gt; call(SelectCountryInput param) async {
@@ -61,7 +71,7 @@ class SelectCountryCrossImpl implements SelectCountryCross {
 
         <h2>Recommended Boundary</h2>
         <ul>
-          <li>Keep the contract in <code>shared</code>.</li>
+          <li>Keep every contract in <code>src/shared</code> so all modules can import it.</li>
           <li>Keep implementation in the owner feature module.</li>
           <li>Consumers should depend on the contract, not concrete internals.</li>
         </ul>
@@ -72,7 +82,7 @@ class SelectCountryCrossImpl implements SelectCountryCross {
         </p>
 
         <footer>
-          Updated: 2026-02-28
+          Updated: 2026-08-27
         </footer>
       </main>
     </div>
