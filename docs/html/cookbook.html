@@ -23,7 +23,7 @@
           <a href="./feature_module.html">FeatureModule</a>
           <a href="./module_composer.html">ModuleComposer</a>
           <a href="./module_composer_builder.html">ModuleComposerBuilder</a>
-          <a href="./cross_dependency.html">CrossDependency</a>
+          <a href="./on_ramp.html">OnRamp</a>
         </div>
       </aside>
 
@@ -77,13 +77,13 @@ FutureOr&lt;bool&gt; isEnabled(BuildContext context) {
   return remoteConfig.enableCheckout;
 }</code></pre>
 
-        <h2>Recipe 5: CrossDependency boundary</h2>
-        <pre><code>// src/shared/cross/select_country_cross.dart
-abstract class SelectCountryCross
-    implements CrossDependency&lt;Future&lt;String?&gt;, SelectCountryInput&gt; {}
+        <h2>Recipe 5: OnRamp boundary</h2>
+        <pre><code>// shared/on_ramp/select_country_on_ramp.dart
+abstract class SelectCountryOnRamp
+    implements OnRamp&lt;Future&lt;String?&gt;, SelectCountryInput&gt; {}
 
-// features/select_country/cross/select_country_cross_impl.dart
-class SelectCountryCrossImpl implements SelectCountryCross { ... }</code></pre>
+// features/select_country/on_ramp/select_country_on_ramp_impl.dart
+class SelectCountryOnRampImpl implements SelectCountryOnRamp { ... }</code></pre>
 
         <h2>Recipe 6: Retry with errorBuilder</h2>
         <pre><code>// StatefulWidget with retryKey
@@ -105,7 +105,7 @@ ModuleComposerBuilder(
 
         <p>
           See also: <a href="./faq.html">FAQ</a>,
-          <a href="./cross_dependency.html">CrossDependency</a>
+          <a href="./on_ramp.html">OnRamp</a>
         </p>
 
         <footer>

@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 
-import '../../shared/cross/select_country_cross.dart';
+import '../../shared/on_ramp/select_country_on_ramp.dart';
 
 class CheckoutController extends ChangeNotifier {
-  CheckoutController(this._selectCountryCross);
+  CheckoutController(this._selectCountryOnRamp);
 
-  final SelectCountryCross _selectCountryCross;
+  final SelectCountryOnRamp _selectCountryOnRamp;
 
   String? selectedCountryCode;
   bool isLoading = false;
@@ -15,7 +15,7 @@ class CheckoutController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final countryCode = await _selectCountryCross(
+      final countryCode = await _selectCountryOnRamp(
         SelectCountryInput(
           context: context,
           initialCountryCode: selectedCountryCode,

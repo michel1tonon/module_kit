@@ -1,3 +1,9 @@
+## Unreleased
+
+### Changed
+
+- **Breaking:** Renamed `CrossDependency` to `OnRamp`. Feature contracts and implementations should follow `*OnRamp` / `*OnRampImpl` naming; suggested folders are `shared/on_ramp` and `features/<name>/on_ramp`.
+
 ## 0.0.1
 
 - Initial public release of `module_kit`.
@@ -7,7 +13,7 @@
 - `FeatureModule<ROUTER, INJECTOR>` contract for modular feature composition.
 - `ModuleComposer<ROUTER, INJECTOR>` to register modules, resolve enabled modules, and aggregate contributions.
 - `ModuleComposerBuilder<ROUTER, INJECTOR>` for async bootstrap in the widget tree.
-- `CrossDependency<RETURN, PARAM>` contract to define explicit cross-module boundaries.
+- `OnRamp<RETURN, PARAM>` contract to define explicit cross-module boundaries.
 
 ### Changed
 
