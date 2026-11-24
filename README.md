@@ -82,6 +82,58 @@ lib/
 
 Both levels use the same `FeatureModule<ROUTER, INJECTOR>` composition model.
 
+### Package layout (target state)
+
+In a monorepo, treat each feature as its own package. Only the **app shell** and a thin **contracts** package sit between features:
+
+```text
+packages/
+  my_app/                    # shell: ModuleComposer, main
+  app_contracts/             # OnRamp contracts + shared DTOs
+  select_country_feature/    # owner: *OnRampImpl + routes + internal UI
+  checkout_feature/          # consumer: depends on contracts, not select_country
+```
+
+**Dependency rule:** `checkout_feature` → `app_contracts` ✓ · `checkout_feature` → `select_country_feature` ✗
+
+```mermaid
+flowchart TB
+  subgraph shell["my_app (shell)"]
+    Composer["ModuleComposer / main"]
+  end
+
+  subgraph contracts["app_contracts"]
+    Ramp["SelectCountryOnRamp"]
+  end
+
+  subgraph owner["select_country_feature"]
+    ModOwner["FeatureModule"]
+    Impl["SelectCountryOnRampImpl"]
+    PrivateOwner["presentation · domain · data"]
+  end
+
+  subgraph consumer["checkout_feature"]
+    ModConsumer["FeatureModule"]
+    UseRamp["checkout uses OnRamp only"]
+    PrivateConsumer["presentation · domain · data"]
+  end
+
+  Kit["module_kit"]
+
+  Composer --> ModOwner
+  Composer --> ModConsumer
+  ModOwner --> Impl
+  Impl -. implements .-> Ramp
+  UseRamp --> Ramp
+  ModOwner --> contracts
+  ModConsumer --> contracts
+  contracts --> Kit
+  Impl --> PrivateOwner
+  UseRamp --> PrivateConsumer
+```
+
+HTML version with ASCII diagram: [docs/html/feature_packages.html](docs/html/feature_packages.html).
+
 ## Feature boundary rules
 
 To support micro frontend and multi-package architectures, prefer these boundaries:

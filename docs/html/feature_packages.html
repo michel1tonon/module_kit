@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feature packages - module_kit docs</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h1>module_kit docs</h1>
+        <div class="version">v1.0.0</div>
+
+        <div class="nav-group">
+          <div class="nav-title">Overview</div>
+          <a href="./index.html">Home</a>
+          <a class="active" href="./feature_packages.html">Feature packages</a>
+          <a href="./faq.html">FAQ</a>
+          <a href="./cookbook.html">Cookbook</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-title">Core Classes</div>
+          <a href="./feature_module.html">FeatureModule</a>
+          <a href="./module_composer.html">ModuleComposer</a>
+          <a href="./module_composer_builder.html">ModuleComposerBuilder</a>
+          <a href="./on_ramp.html">OnRamp</a>
+        </div>
+      </aside>
+
+      <main class="content">
+        <h1>Feature packages (monorepo)</h1>
+        <p>
+          Each feature is an independent Dart/Flutter <strong>package</strong>. The app
+          shell composes them; integration between features uses <code>OnRamp</code>
+          contracts in a small shared package — never feature-to-feature imports.
+        </p>
+
+        <section class="callout">
+          <strong>Dependency rule:</strong> <code>checkout_feature</code> may depend on
+          <code>app_contracts</code>, but must not depend on
+          <code>select_country_feature</code>. The shell registers each feature's
+          <code>*OnRampImpl</code> through <code>FeatureModule.injectors</code>.
+        </section>
+
+        <h2>Package map</h2>
+        <pre><code>monorepo/
+├── packages/
+│   ├── my_app/                      # App shell (composition root)
+│   │   ├── pubspec.yaml             # depends: module_kit, app_contracts,
+│   │   └── lib/main.dart            #          checkout_feature, select_country_feature
+│   │
+│   ├── app_contracts/               # Shared boundaries only (no UI)
+│   │   ├── pubspec.yaml             # depends: module_kit, flutter
+│   │   └── lib/on_ramp/
+│   │       └── select_country_on_ramp.dart
+│   │
+│   ├── select_country_feature/      # Owner of select-country capability
+│   │   ├── pubspec.yaml             # depends: module_kit, app_contracts
+│   │   └── lib/
+│   │       ├── select_country_module.dart
+│   │       └── on_ramp/select_country_on_ramp_impl.dart
+│   │
+│   └── checkout_feature/
+│       ├── pubspec.yaml             # depends: module_kit, app_contracts (not select_country)
+│       └── lib/
+│           ├── checkout_module.dart
+│           └── checkout_controller.dart   # uses SelectCountryOnRamp only
+│
+└── melos.yaml / workspace pubspec   # optional tooling</code></pre>
+
+        <h2>Dependency diagram</h2>
+        <pre><code>                    ┌─────────────────────────┐
+                    │   my_app (app shell)    │
+                    │ ModuleComposer, main    │
+                    └───────────┬─────────────┘
+            composes          │          composes
+                ┌─────────────┼─────────────┐
+                ▼             ▼             ▼
+    ┌──────────────────┐ ┌─────────────┐ ┌──────────────────────┐
+    │ checkout_feature │ │ app_contracts│ │ select_country_feature│
+    │ FeatureModule    │ │ *OnRamp      │ │ FeatureModule        │
+    │ needs OnRamp ────┼►│ contracts    │◄┼── OnRampImpl (owner) │
+    └────────┬─────────┘ └──────┬──────┘ └──────────┬───────────┘
+             │                  │                    │
+             │    depends on    │      depends on    │
+             └──────────────────┴────────────────────┘
+                                │
+                                ▼
+                        ┌───────────────┐
+                        │  module_kit   │
+                        │  (pub package)│
+                        └───────────────┘
+
+    ╳  checkout_feature ──► select_country_feature   (forbidden)
+    ✓  checkout_feature ──► app_contracts              (allowed)
+    ✓  shell wires OnRampImpl at runtime via injectors</code></pre>
+
+        <h2>Evolution path</h2>
+        <ol>
+          <li>
+            <strong>Local folders</strong> — same boundaries under
+            <code>lib/features/</code> and <code>lib/shared/on_ramp/</code>.
+          </li>
+          <li>
+            <strong>Workspace packages</strong> — move each folder to
+            <code>packages/*_feature</code> without changing
+            <code>FeatureModule</code> or <code>OnRamp</code> contracts.
+          </li>
+          <li>
+            <strong>Publish separately</strong> — internal pub server or git deps;
+            contracts package stays thin and stable.
+          </li>
+        </ol>
+
+        <h2>What stays inside each feature package</h2>
+        <ul>
+          <li>Routes contributed by <code>FeatureModule.routers</code>.</li>
+          <li>DI registrars from <code>FeatureModule.injectors</code>.</li>
+          <li>Presentation, domain, data — not exported to sibling features.</li>
+          <li><code>*OnRampImpl</code> only when this package <em>owns</em> that capability.</li>
+        </ul>
+
+        <p>
+          See also: <a href="./on_ramp.html">OnRamp</a>,
+          <a href="./feature_module.html">FeatureModule</a>,
+          <a href="./module_composer.html">ModuleComposer</a>
+        </p>
+
+        <footer>Updated: 2026-11-23</footer>
+      </main>
+    </div>
+  </body>
+</html>

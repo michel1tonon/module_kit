@@ -4,6 +4,10 @@
 
 - **Breaking:** Renamed `CrossDependency` to `OnRamp`. Feature contracts and implementations should follow `*OnRamp` / `*OnRampImpl` naming; suggested folders are `shared/on_ramp` and `features/<name>/on_ramp`.
 
+### Documentation
+
+- Added monorepo feature-package diagram (`docs/html/feature_packages.html`) and Mermaid overview in `README.md`.
+
 ## 0.0.1
 
 - Initial public release of `module_kit`.
