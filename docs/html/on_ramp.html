@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CrossDependency - module_kit docs</title>
+    <title>OnRamp - module_kit docs</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -15,6 +15,7 @@
         <div class="nav-group">
           <div class="nav-title">Overview</div>
           <a href="./index.html">Home</a>
+          <a href="./feature_packages.html">Feature packages</a>
           <a href="./faq.html">FAQ</a>
           <a href="./cookbook.html">Cookbook</a>
         </div>
@@ -23,13 +24,16 @@
           <a href="./feature_module.html">FeatureModule</a>
           <a href="./module_composer.html">ModuleComposer</a>
           <a href="./module_composer_builder.html">ModuleComposerBuilder</a>
-          <a class="active" href="./cross_dependency.html">CrossDependency</a>
+          <a class="active" href="./on_ramp.html">OnRamp</a>
         </div>
       </aside>
 
       <main class="content">
-        <h1>CrossDependency&lt;RETURN, PARAM&gt;</h1>
-        <p>Simple contract for module-to-module communication without importing internals.</p>
+        <h1>OnRamp&lt;RETURN, PARAM&gt;</h1>
+        <p>
+          Controlled entry contract for module-to-module communication without
+          importing internals.
+        </p>
 
         <section class="callout">
           <strong>Convention, not a requirement.</strong>
@@ -48,20 +52,34 @@
 
         <h2>Architectural View</h2>
         <ul>
-          <li>Treat <code>CrossDependency</code> as a boundary port between modules.</li>
-          <li>All contracts belong in <code>src/shared</code>, not inside feature internals — this keeps them visible to the entire project.</li>
-          <li>The owner feature provides the adapter/implementation.</li>
-          <li>Consumer features depend only on the contract, preserving dependency direction.</li>
-          <li>This keeps modules replaceable, testable, and ready for micro frontend evolution.</li>
+          <li>
+            Treat <code>OnRamp</code> as the entry boundary into a feature capability
+            (a port in hexagonal terms).
+          </li>
+          <li>
+            All contracts belong in <code>shared/on_ramp</code>, not inside feature
+            internals — this keeps them visible to the entire project.
+          </li>
+          <li>
+            The owner feature provides <code>*OnRampImpl</code> (the concrete ramp).
+          </li>
+          <li>
+            Consumer features depend only on the contract, preserving dependency
+            direction.
+          </li>
+          <li>
+            This keeps modules replaceable, testable, and ready for micro frontend
+            evolution.
+          </li>
         </ul>
 
         <h2>Practical Contract + Implementation</h2>
-        <pre><code>// src/shared/cross/select_country_cross.dart
-abstract class SelectCountryCross
-    implements CrossDependency&lt;Future&lt;String?&gt;, SelectCountryInput&gt; {}
+        <pre><code>// shared/on_ramp/select_country_on_ramp.dart
+abstract class SelectCountryOnRamp
+    implements OnRamp&lt;Future&lt;String?&gt;, SelectCountryInput&gt; {}
 
-// features/select_country/cross/select_country_cross_impl.dart
-class SelectCountryCrossImpl implements SelectCountryCross {
+// features/select_country/on_ramp/select_country_on_ramp_impl.dart
+class SelectCountryOnRampImpl implements SelectCountryOnRamp {
   @override
   Future&lt;String?&gt; call(SelectCountryInput param) async {
     // owner module flow
@@ -71,15 +89,15 @@ class SelectCountryCrossImpl implements SelectCountryCross {
 
         <h2>Recommended Boundary</h2>
         <ul>
-          <li>Keep every contract in <code>src/shared</code> so all modules can import it.</li>
-          <li>Keep implementation in the owner feature module.</li>
+          <li>Keep every contract in <code>shared/on_ramp</code> so all modules can import it.</li>
+          <li>Keep <code>*OnRampImpl</code> in the owner feature module.</li>
           <li>Consumers should depend on the contract, not concrete internals.</li>
         </ul>
 
         <h2>What It Does Not Solve</h2>
         <section class="callout">
           <strong>Cyclic dependencies.</strong>
-          <code>CrossDependency</code> defines a communication boundary — it does not break
+          <code>OnRamp</code> defines a communication boundary — it does not break
           dependency cycles between features. If two modules need each other, that tension
           must be resolved at the <strong>Application</strong> (app shell) level: compose modules,
           wire implementations, and orchestrate flows there — not by letting features depend
@@ -92,7 +110,7 @@ class SelectCountryCrossImpl implements SelectCountryCross {
         </p>
 
         <footer>
-          Updated: 2026-08-27
+          Updated: 2026-11-23
         </footer>
       </main>
     </div>

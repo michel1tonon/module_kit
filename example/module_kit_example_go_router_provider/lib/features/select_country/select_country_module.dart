@@ -4,9 +4,9 @@ import 'package:module_kit/module_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-import 'cross/select_country_cross_impl.dart';
+import 'on_ramp/select_country_on_ramp_impl.dart';
 import 'presentation/select_country_page.dart';
-import '../../shared/cross/select_country_cross.dart';
+import '../../shared/on_ramp/select_country_on_ramp.dart';
 
 class SelectCountryModule extends FeatureModule<RouteBase, SingleChildWidget> {
   @override
@@ -14,8 +14,8 @@ class SelectCountryModule extends FeatureModule<RouteBase, SingleChildWidget> {
 
   @override
   Iterable<SingleChildWidget> injectors(BuildContext context) => [
-        Provider<SelectCountryCross>(
-          create: (_) => SelectCountryCrossImpl(),
+        Provider<SelectCountryOnRamp>(
+          create: (_) => SelectCountryOnRampImpl(),
         ),
       ];
 

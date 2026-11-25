@@ -34,7 +34,7 @@ This means your architecture can move from "modular folders" to "modular package
 - Composes enabled modules through `ModuleComposer`.
 - Aggregates routers and injectors from enabled modules.
 - Provides `ModuleComposerBuilder` for async bootstrap in the widget tree.
-- Provides `CrossDependency<RETURN, PARAM>` as a contract boundary between modules.
+- Provides `OnRamp<RETURN, PARAM>` as a contract boundary between modules.
 
 ## Recommended project structure (consumer apps)
 
@@ -49,13 +49,13 @@ lib/
   features/
     select_country/
       select_country_module.dart
-      cross/
-        select_country_cross_impl.dart
+      on_ramp/
+        select_country_on_ramp_impl.dart
     checkout/
       checkout_module.dart
   shared/
-    cross/
-      select_country_cross.dart
+    on_ramp/
+      select_country_on_ramp.dart
 ```
 
 ### Level 2: monorepo, multi-package features
@@ -69,48 +69,100 @@ lib/
     select_country_feature/
       lib/
         select_country_module.dart
-        cross/
-          select_country_cross_impl.dart
+        on_ramp/
+          select_country_on_ramp_impl.dart
     checkout_feature/
       lib/
         checkout_module.dart
   shared/
-    cross/
+    on_ramp/
       lib/
-        select_country_cross.dart
+        select_country_on_ramp.dart
 ```
 
 Both levels use the same `FeatureModule<ROUTER, INJECTOR>` composition model.
+
+### Package layout (target state)
+
+In a monorepo, treat each feature as its own package. Only the **app shell** and a thin **contracts** package sit between features:
+
+```text
+packages/
+  my_app/                    # shell: ModuleComposer, main
+  app_contracts/             # OnRamp contracts + shared DTOs
+  select_country_feature/    # owner: *OnRampImpl + routes + internal UI
+  checkout_feature/          # consumer: depends on contracts, not select_country
+```
+
+**Dependency rule:** `checkout_feature` → `app_contracts` ✓ · `checkout_feature` → `select_country_feature` ✗
+
+```mermaid
+flowchart TB
+  subgraph shell["my_app (shell)"]
+    Composer["ModuleComposer / main"]
+  end
+
+  subgraph contracts["app_contracts"]
+    Ramp["SelectCountryOnRamp"]
+  end
+
+  subgraph owner["select_country_feature"]
+    ModOwner["FeatureModule"]
+    Impl["SelectCountryOnRampImpl"]
+    PrivateOwner["presentation · domain · data"]
+  end
+
+  subgraph consumer["checkout_feature"]
+    ModConsumer["FeatureModule"]
+    UseRamp["checkout uses OnRamp only"]
+    PrivateConsumer["presentation · domain · data"]
+  end
+
+  Kit["module_kit"]
+
+  Composer --> ModOwner
+  Composer --> ModConsumer
+  ModOwner --> Impl
+  Impl -. implements .-> Ramp
+  UseRamp --> Ramp
+  ModOwner --> contracts
+  ModConsumer --> contracts
+  contracts --> Kit
+  Impl --> PrivateOwner
+  UseRamp --> PrivateConsumer
+```
+
+HTML version with ASCII diagram: [docs/html/feature_packages.html](docs/html/feature_packages.html).
 
 ## Feature boundary rules
 
 To support micro frontend and multi-package architectures, prefer these boundaries:
 
 - Feature modules depend on `shared` contracts, not on other feature internals.
-- Cross-feature integration goes through `CrossDependency` contracts in `shared`.
-- The owner feature provides the concrete implementation of its contract.
+- Cross-feature integration goes through `OnRamp` contracts in `shared/on_ramp`.
+- The owner feature provides an `*OnRampImpl` implementation of its contract.
 - The app shell (`main`) composes enabled modules and wires dependencies.
 
-## CrossDependency guidelines
+## OnRamp guidelines
 
-`CrossDependency` should live in `shared` as a known contract.
+`OnRamp` contracts should live in `shared/on_ramp` as a known boundary.
 
-- Everyone can depend on the contract.
-- Only the owner module provides the implementation.
+- Everyone can depend on the contract (`*OnRamp`).
+- Only the owner module provides the implementation (`*OnRampImpl`).
 
 ### 1) Contract in shared
 
 ```dart
 import 'package:module_kit/module_kit.dart';
 
-abstract class SelectCountryCross
-    implements CrossDependency<Future<String?>, String> {}
+abstract class SelectCountryOnRamp
+    implements OnRamp<Future<String?>, String> {}
 ```
 
 ### 2) Implementation in owner feature module
 
 ```dart
-class SelectCountryCrossImpl implements SelectCountryCross {
+class SelectCountryOnRampImpl implements SelectCountryOnRamp {
   @override
   Future<String?> call(String initialCountryCode) async {
     // owner module flow
@@ -163,7 +215,7 @@ You still need to wire the collected `routers` and `injectors` into your app (as
 
 ## Examples
 
-- `example/module_kit_example_go_router_provider`: baseline composition with `go_router + provider` and `CrossDependency`.
+- `example/module_kit_example_go_router_provider`: baseline composition with `go_router + provider` and `OnRamp`.
 - `example/module_kit_example_navigator_get_it`: custom Navigator routes (`MapEntry`) with dependency registration via `get_it`.
 - `example/module_kit_example_go_router_riverpod`: composition with `go_router + flutter_riverpod` using `Override` contributions.
 - `example/module_kit_example_retry`: retry flow using `ModuleComposerBuilder` `errorBuilder`.

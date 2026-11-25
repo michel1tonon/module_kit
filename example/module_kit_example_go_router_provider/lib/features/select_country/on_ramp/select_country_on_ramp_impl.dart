@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../shared/cross/select_country_cross.dart';
+import '../../../shared/on_ramp/select_country_on_ramp.dart';
 
-class SelectCountryCrossImpl implements SelectCountryCross {
+class SelectCountryOnRampImpl implements SelectCountryOnRamp {
   static const _countries = <(String code, String name)>[
     ('BR', 'Brazil'),
     ('US', 'United States'),

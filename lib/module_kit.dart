@@ -12,14 +12,14 @@
 ///   and injectors.
 /// - [ModuleComposerBuilder] — Widget that bootstraps modules asynchronously
 ///   and hands collected routers/injectors to your app shell.
-/// - [CrossDependency] — Contract boundary for cross-feature integration
-///   (owner module provides the implementation).
+/// - [OnRamp] — Contract boundary for cross-feature integration (owner module
+///   provides a `*OnRampImpl` implementation).
 ///
 /// The library does not perform route registration or dependency wiring;
 /// your app shell must do that. See the package README for examples.
 library module_kit;
 
-export 'src/cross_dependency.dart';
+export 'src/on_ramp.dart';
 export 'src/feature_module.dart';
 export 'src/module_composer_builder.dart';
 export 'src/module_composer.dart';

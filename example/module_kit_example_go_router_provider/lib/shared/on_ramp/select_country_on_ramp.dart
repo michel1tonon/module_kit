@@ -11,5 +11,5 @@ class SelectCountryInput {
   final String? initialCountryCode;
 }
 
-abstract class SelectCountryCross
-    implements CrossDependency<Future<String?>, SelectCountryInput> {}
+abstract class SelectCountryOnRamp
+    implements OnRamp<Future<String?>, SelectCountryInput> {}

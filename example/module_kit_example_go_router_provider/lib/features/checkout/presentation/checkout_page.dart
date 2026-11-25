@@ -26,7 +26,9 @@ class CheckoutPage extends StatelessWidget {
               onPressed: controller.isLoading
                   ? null
                   : () => context.read<CheckoutController>().selectCountry(context),
-              child: Text(controller.isLoading ? 'Loading...' : 'Select country via Cross'),
+              child: Text(
+                controller.isLoading ? 'Loading...' : 'Select country via OnRamp',
+              ),
             ),
             const SizedBox(height: 12),
             OutlinedButton(
